@@ -22,34 +22,33 @@ let timeRange = ref(TimeRange.MONTH)
 let field = ref(Field.TASK_COUNT)
 
 let userStatisticSorted = computed(() => {
-  if (!isLoaded.value) return [];
-
-  // Фільтрація статистики на основі TimeRange
-  const filteredStatistic = userStatistic.value.filter(([login, statistic]) => {
-    if (timeRange.value === TimeRange.MONTH) {
-      return statistic.monthlyProgress > 0; // Вибір для місяця
-    } else {
-      return statistic.weeklyProgress > 0; // Вибір для тижня
-    }
-  });
-
-  // Вибір поля для сортування
-  const sortByField = (a: [string, Statistic], b: [string, Statistic]) => {
-    const statA = a[1];
-    const statB = b[1];
-
-    switch (field.value) {
-      case Field.TASK_COUNT:
-        return statA.weeklyProgress - statB.weeklyProgress; // Сортування за weeklyProgress
+  let userStatisticList: [string, number][] = [];
+  for (let i = 0; i < userStatistic.value.length; i++) {
+    userStatisticList[i] = ["", 0];
+    userStatisticList[i][0] = userStatistic.value[i][0];
+    switch (field.value){
       case Field.TIME:
-        return statA.avgTimeWeekly - statB.avgTimeWeekly; // Сортування за avgTimeWeekly
-      default:
-        return 0; // Якщо поле не розпізнано, не змінюємо порядок
+        switch (timeRange.value){
+          case TimeRange.MONTH:
+            userStatisticList[i][1] = userStatistic.value[i][1].avgTimeMonthly;
+            break;
+          case TimeRange.WEEK:
+            userStatisticList[i][1] = userStatistic.value[i][1].avgTimeWeekly;
+            break;
+        }
+        break;
+      case Field.TASK_COUNT:
+        switch (timeRange.value){
+          case TimeRange.MONTH:
+            userStatisticList[i][1] = userStatistic.value[i][1].monthlyProgress;
+            break;
+          case TimeRange.WEEK:
+            userStatisticList[i][1] = userStatistic.value[i][1].weeklyProgress;
+            break;
+        }
     }
-  };
-
-  // Повертаємо відсортований масив
-  return filteredStatistic.sort(sortByField);
+  }
+  return userStatisticList.sort((a,b) => a[1] - b[1]);
 });
 
 
@@ -68,7 +67,7 @@ let userStatisticSorted = computed(() => {
       </select>
     </div>
     <div class="m-1">
-      <table class="table">
+      <table class="table table-hover">
         <thead>
           <tr>
             <th></th>
@@ -77,21 +76,15 @@ let userStatisticSorted = computed(() => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(user, index) in userStatisticSorted" :key="index">
+          <tr v-for="(val, index) in userStatisticSorted" :key="index" :class="{'table-primary': val[0]===currentUser.login}">
             <td>
-              <div v-if="currentUser.login === user[0]">
-                <i class="bi bi-person-circle"></i>
-              </div>
-              <div v-else>
-                {{ index+1 }}
-              </div>
+              {{ index + 1 }}
             </td>
-            <td>{{ user[0] }}</td>
             <td>
-              <a v-if="field === Field.TIME && timeRange === TimeRange.WEEK">{{user[1].avgTimeWeekly}}</a>
-              <a v-else-if="field === Field.TIME && timeRange === TimeRange.MONTH">{{user[1].avgTimeMonthly}}</a>
-              <a v-else-if="field === Field.TASK_COUNT && timeRange === TimeRange.WEEK">{{ user[1].weeklyProgress }}</a>
-              <a v-else-if="field === Field.TASK_COUNT && timeRange === TimeRange.MONTH">{{ user[1].monthlyProgress }}</a>
+              {{ val[0] }}
+            </td>
+            <td>
+              {{ val[1] }}
             </td>
           </tr>
         </tbody>

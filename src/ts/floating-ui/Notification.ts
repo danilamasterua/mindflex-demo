@@ -1,37 +1,47 @@
-import {computePosition, offset} from "@floating-ui/vue";
+import {computePosition} from "@floating-ui/vue";
+
+let interval: number | null = null;
 
 export function showNotification(msg: string): void {
-    document.querySelector("#notification_content").innerHTML = msg;
+    const notificationContent = document.querySelector("#notification_content");
 
-    const notificationAnchor = document.querySelector("#notification_anchor");
-    const notificationBlock = document.querySelector("#notification");
+    const notificationAnchor = document.getElementById("notification_anchor");
+    const notificationBlock = document.getElementById("notification");
 
-    toggleNotificationVisibility()
+    if (notificationContent && notificationAnchor && notificationBlock) {
+        notificationBlock.classList.add("show");
 
-    computePosition(notificationAnchor, notificationBlock, {
-        placement: 'bottom',
-        middleware: [offset({
-            mainAxis: 6,
-            crossAxis: -6
-        })]
-    }).then(
-        ({x,y}) => {
-            Object.assign(notificationBlock.style, {
-                left: `${x}px`,
-                top: `${y}px`,
-            })
-        }
-    );
+        notificationContent.innerHTML = msg;
 
-    let interval = setInterval(() => {
-        if (notificationBlock.classList.contains('show')) {
-            toggleNotificationVisibility();
-            document.querySelector("#notification_content").innerHTML = "";
-        }
-        clearInterval(interval)}, 5000)
+        computePosition(notificationAnchor, notificationBlock, {
+            placement: 'bottom',
+        }).then(
+            ({x, y}) => {
+                Object.assign(notificationBlock.style, {
+                    left: `${x}px`,
+                    top: `${y}px`,
+                })
+            }
+        );
+
+        onCursorEnd();
+    }
 }
 
-export function toggleNotificationVisibility() {
+export function onCursorBehind(): void {
+    if (interval !== null) {
+        clearInterval(interval)
+        interval = null;
+    }
+}
+
+export function onCursorEnd(): void {
+    onCursorBehind();
     const notificationBlock = document.querySelector("#notification");
-    notificationBlock?.classList.toggle("show");
+    if (notificationBlock != null) {
+        interval = setInterval(() => {
+            notificationBlock.classList.remove("show");
+            onCursorBehind()
+        }, 5000)
+    }
 }

@@ -48,8 +48,8 @@ let currentUserAge = computed(()=>{
             >
               <i class="bi bi-question-circle"></i>
             </button>
-            <div class="floating-tooltip bg-light shadow" id="birthday_tooltip" role="tooltip" style="display: none;">
-              <h5>Вік</h5>
+            <div class="floating-tooltip bg-primary shadow" id="birthday_tooltip" role="tooltip" style="display: none;">
+              <h5 class="text-white">Вік</h5>
               <div class="bg-white rounded p-2 shadow">
                 Молодшим користувачам підходять більш інтерактивні та ігрові завдання, що підтримують їх увагу,<br>
                 Старші користувачі можуть потребувати більш спокійних і<br>
@@ -75,8 +75,8 @@ let currentUserAge = computed(()=>{
             >
               <i class="bi bi-question-circle"></i>
             </button>
-            <div class="floating-tooltip bg-light shadow" id="sex_tooltip" role="tooltip" style="display: none;">
-              <h5>Стать</h5>
+            <div class="floating-tooltip bg-primary shadow" id="sex_tooltip" role="tooltip" style="display: none;">
+              <h5 class="text-white">Стать</h5>
               <div class="bg-white rounded p-2 shadow">
                 Згідно з дослідженнями, жінки мають більшу продуктивність у багатозначності,
                 ніж чоловіки, тому складність відповідних завдань напряму залежить від статі.
@@ -105,8 +105,8 @@ let currentUserAge = computed(()=>{
             >
               <i class="bi bi-question-circle"></i>
             </button>
-            <div class="floating-tooltip bg-light shadow" style="display: none;" id="hobie_tooltip" role="tooltip">
-              <h5>Захоплення</h5>
+            <div class="floating-tooltip bg-primary shadow" style="display: none;" id="hobie_tooltip" role="tooltip">
+              <h5 class="text-white">Захоплення</h5>
               <div class="bg-white rounded p-2 shadow">
                 Захоплення користувача визначають можливу тематику завдань
               </div>
@@ -135,8 +135,8 @@ let currentUserAge = computed(()=>{
               <i class="bi bi-question-circle"></i>
             </button>
             <b>Психологічний стан</b>
-            <div class="floating-tooltip bg-light shadow" id="psycho_tooltip" role="tooltip" style="display: none;">
-              <h5>Психологічний стан</h5>
+            <div class="floating-tooltip bg-primary shadow" id="psycho_tooltip" role="tooltip" style="display: none;">
+              <h5 class="text-white">Психологічний стан</h5>
               <div class="bg-white rounded p-2 shadow">
                 Психологічний стан користувача має значний вплив на ефективність тренування пам'яті,
                 оскільки стрес або тривога можуть заважати концентрації та сприйняттю інформації.
@@ -166,8 +166,8 @@ let currentUserAge = computed(()=>{
               <i class="bi bi-question-circle"></i>
             </button>
             <b>Сфера діяльності</b>
-            <div class="floating-tooltip bg-light shadow" style="display: none;" id="workplace_tooltip" role="tooltip">
-              <h5>Сфера діяльності</h5>
+            <div class="floating-tooltip bg-primary shadow" style="display: none;" id="workplace_tooltip" role="tooltip">
+              <h5 class="text-white">Сфера діяльності</h5>
               <div class="bg-white rounded p-2 shadow">
                 Люди, що працюють в аналітичних або технічних сферах,
                 можуть краще впоратися зі складними задачами на логіку та числа,<br>

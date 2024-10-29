@@ -1,16 +1,17 @@
 <script setup lang="ts">
 
 import {onMounted, onUnmounted, ref} from "vue";
+import {showNotification} from "@/ts/floating-ui/Notification";
 
 const props = defineProps<{
   origPairs: [[string, string], [string, string]][]
 }>()
 const emit = defineEmits(["endTask"])
-let firstColumn = ref([] as string[[string, string]])
-let lastColumn = ref([] as string[[string, string]])
+let firstColumn = ref([] as [string, string][])
+let lastColumn = ref([] as [string, string][])
 let isLoaded = ref(false)
 let pairs = ref([] as [[string, string], [string, string]][])
-let timer = null
+let timer:number;
 let time = ref(0 as number)
 
 onMounted(()=>{
@@ -18,9 +19,8 @@ onMounted(()=>{
   for (let i=0; i<origPairs.length; i++) {
     firstColumn.value[i] = origPairs[i][0]
     lastColumn.value[i] = origPairs[i][1]
-    pairs.value[i] = []
+    pairs.value[i] = [["", ""], ["", ""]]
     pairs.value[i][0] = origPairs[i][0]
-    pairs.value[i][1] = ["", ""]
   }
   lastColumn.value = shuffleArray(lastColumn.value)
   startTimer()
@@ -28,22 +28,16 @@ onMounted(()=>{
 })
 
 function checkCorrectness(){
-  let check = true
-  let errorIndex = 0;
-  for (errorIndex = 0; errorIndex < pairs.value.length; errorIndex++) {
+  let correctPairs = 0;
+  for (let errorIndex = 0; errorIndex < pairs.value.length; errorIndex++) {
     let pair = pairs.value[errorIndex]
     let origPair = props.origPairs[errorIndex]
     if (pair[1][0]!==origPair[1][0]){
-      check = false
-      break
+      correctPairs++;
     }
   }
-  if(check){
-    alert("Pairs correct")
-    emit("endTask")
-  } else {
-    alert("Pair incorrect at index " + (errorIndex+1) + ".")
-  }
+  showNotification(`Правильно ${correctPairs} з ${pairs.value.length} пар`)
+  emit('endTask');
 }
 
 function shuffleArray<T>(array: T[]): T[] {
