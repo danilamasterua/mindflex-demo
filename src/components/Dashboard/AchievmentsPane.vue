@@ -38,7 +38,7 @@ onMounted(()=>{
         <div>
           <h5>Рейтинг користувачів</h5>
         </div>
-        <div class="bg-white rounded border shadow-sm p-2" style="height: 50vh; overflow-y: auto; scrollbar-width: none;">
+        <div class="bg-white rounded border shadow-sm p-2" style="height: 50vh;">
           <UserRating :currentUser="currentUser" />
         </div>
       </div>

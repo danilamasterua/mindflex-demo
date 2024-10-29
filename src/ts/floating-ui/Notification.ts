@@ -3,7 +3,7 @@ import {computePosition} from "@floating-ui/vue";
 let interval: number | null = null;
 
 export function showNotification(msg: string): void {
-    const notificationContent = document.querySelector("#notification_content");
+    const notificationContent = document.getElementById("notification_content");
 
     const notificationAnchor = document.getElementById("notification_anchor");
     const notificationBlock = document.getElementById("notification");
@@ -37,7 +37,7 @@ export function onCursorBehind(): void {
 
 export function onCursorEnd(): void {
     onCursorBehind();
-    const notificationBlock = document.querySelector("#notification");
+    const notificationBlock = document.getElementById("notification");
     if (notificationBlock != null) {
         interval = setInterval(() => {
             notificationBlock.classList.remove("show");

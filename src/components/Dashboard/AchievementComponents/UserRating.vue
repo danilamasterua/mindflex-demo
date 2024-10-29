@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, onUpdated, ref} from "vue";
 import type {Statistic} from "@/ts/model/Statistic";
 import DataSource from "@/ts/DataSource";
 import type {User} from "@/ts/model/User";
@@ -51,11 +51,10 @@ let userStatisticSorted = computed(() => {
   return userStatisticList.sort((a,b) => a[1] - b[1]);
 });
 
-
 </script>
 
 <template>
-  <div v-if="isLoaded">
+  <div v-if="isLoaded" id="rating-table">
     <div class="d-flex justify-content-between">
       <select class="form-select mx-1" v-model="timeRange">
         <option :value="TimeRange.MONTH">Місяць</option>
@@ -66,7 +65,7 @@ let userStatisticSorted = computed(() => {
         <option :value="Field.TASK_COUNT">К-сть вик. завдань</option>
       </select>
     </div>
-    <div class="m-1">
+    <div class="m-1" style="max-height: 40vh; overflow-y: auto; scrollbar-width: none;">
       <table class="table table-hover">
         <thead>
           <tr>
@@ -76,7 +75,10 @@ let userStatisticSorted = computed(() => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(val, index) in userStatisticSorted" :key="index" :class="{'table-primary': val[0]===currentUser.login}">
+          <tr v-for="(val, index) in userStatisticSorted" :key="index"
+              :class="{'table-primary': val[0]===currentUser.login}"
+              :id="val[0]===currentUser.login ? 'current-user-row' : undefined"
+          >
             <td>
               {{ index + 1 }}
             </td>

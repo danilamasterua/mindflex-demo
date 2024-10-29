@@ -5,7 +5,6 @@ import {User, UserBuilder} from "@/ts/model/User";
 import router from "@/router";
 import {StatisticBuilder} from "@/ts/model/Statistic";
 import {showNotification} from "@/ts/floating-ui/Notification";
-import Modal from 'bootstrap/js/src/modal'
 
 let login = ref('');
 let password = ref('');
@@ -65,9 +64,9 @@ function proceedRegistration() {
         .build()
     cleanRegData()
     if (DataSource.proceedRegister(user)){
-      alert("Registration successfully")
+      showNotification("Користувача успішно зареєстровано")
     } else {
-      alert("Registration failed")
+      showNotification("Під час реєстрації користувача виникла помилка")
     }
   }
 }

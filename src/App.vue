@@ -73,5 +73,6 @@ function closeNotification(): void {
   }
   #notification:hover{
     background-color: #4b91ff;
+    cursor: pointer;
   }
 </style>
